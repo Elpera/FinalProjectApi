@@ -5,9 +5,9 @@ import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
 import "./App.css";
 
-import Owners from "./components/Owners"
-import OwnerList from "./components/OwnerList";
-import AddOwner from "./components/AddOwner";
+import Owners from "./components/Owners/Owners"
+import OwnerList from "./components/Owners/OwnerList";
+import AddOwner from "./components/Owners/AddOwner";
 
 function App() {
   return (

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import OwnerDataService from "../services/OwnersService"; 
+import OwnerDataService from "../../services/OwnersService"; 
 
 const Owner = props => {
   const initialOwnerState = {
