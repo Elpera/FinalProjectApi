@@ -14,17 +14,22 @@ function App() {
     <div>
       <nav className="navbar navbar-expand navbar-dark bg-dark">
         <a href="/employees" className="navbar-brand">
-          Employee Management
+          Claims Management
         </a>
         <div className="navbar-nav mr-auto">
           <li className="nav-item">
             <Link to={"/owners"} className="nav-link">
-              Database
+              Drivers Database
             </Link>
           </li>
           <li className="nav-item">
-            <Link to={"/add"} className="nav-link">
-              Add
+            <Link to={"/vehicles"} className="nav-link">
+              Vehicles Database
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to={"/claims"} className="nav-link">
+              Claims Database
             </Link>
           </li>
         </div>

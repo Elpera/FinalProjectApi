@@ -1,27 +1,27 @@
 import http from "../http-common";
 
 const getAll = () => {
-  return http.get("/owners");
+  return http.get("/claims");
 };
 
 const get = (id) => {
-  return http.get(`/owners/${id}`);
+  return http.get(`/claims/${id}`);
 };
 
 const create = (data) => {
-  return http.post("/owners", data);
+  return http.post("/claims", data);
 };
 
 const update = (id, data) => {
-  return http.put(`/owners/${id}`, data);
+  return http.put(`/claims/${id}`, data);
 };
 
 const remove = (id) => {
-  return http.delete(`/owners/${id}`);
+  return http.delete(`/claims/${id}`);
 };
 
 const removeAll = () => {
-  return http.delete(`/owners`);
+  return http.delete(`/claims`);
 };
 
 const OwnerService = {
