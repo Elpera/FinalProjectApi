@@ -1,7 +1,7 @@
 import http from "../http-common";
 
 const getAll = () => {
-  return http.get("/vehicles/all");
+  return http.get("/vehicles");
 };
 
 const get = (id) => {
