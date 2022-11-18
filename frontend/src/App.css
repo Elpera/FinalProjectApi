@@ -36,3 +36,13 @@
     transform: rotate(360deg);
   }
 }
+
+.actions-container {
+  display: flex;
+  gap: 8px;
+}
+
+.actions-container > span:hover {
+  cursor: pointer;
+  opacity: 0.6;
+}

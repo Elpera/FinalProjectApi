@@ -8,8 +8,6 @@ const Owner = props => {
     lastName: "",
     driversLicense: "",
   };
-  
-  
 
   const [currentOwner, setCurrentOwner] = useState(initialOwnerState);
   const [message, setMessage] = useState("");

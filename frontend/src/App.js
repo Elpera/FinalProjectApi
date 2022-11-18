@@ -8,6 +8,9 @@ import "./App.css";
 import Owners from "./components/Owners/Owners"
 import OwnerList from "./components/Owners/OwnerList";
 import AddOwner from "./components/Owners/AddOwner";
+import VehiclesList from "./components/Vehicles/VehiclesList";
+import AddVehicles from "./components/Vehicles/AddVehicles";
+import Vehicle from "./components/Vehicles/Vehicles";
 
 function App() {
   return (
@@ -38,8 +41,13 @@ function App() {
       <div className="container mt-3">
         <Switch>
           <Route exact path={["/", "/owners"]} component={OwnerList} />
-          <Route exact path="/add" component={AddOwner} />
-          <Route path="/owners/:id" component={Owners} />
+          <Route exact path="/owners/add" component={AddOwner} />
+          <Route path="/owners/edit/:id" component={Owners} />
+        </Switch>
+        <Switch>
+          <Route exact path={["/", "/vehicles"]} component={VehiclesList} />
+          <Route exact path="/vehicles/add/:id" component={AddVehicles} />
+          <Route path="/vehicles/edit/:id" component={Vehicle} />
         </Switch>
       </div>
     </div>

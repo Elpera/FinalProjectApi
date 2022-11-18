@@ -4,7 +4,6 @@ import { useTable } from "react-table";
 
 const OwnerList = (props) => {
   const [owners, setOwners] = useState([]);
-  const [searchLicense, setSearchLicense] = useState("");
   const ownersRef = useRef();
 
   ownersRef.current = owners;
@@ -12,11 +11,6 @@ const OwnerList = (props) => {
   useEffect(() => {
     retrieveOwners();
   }, []);
-
-  const onChangeSearchTitle = (e) => {
-    const searchTitle = e.target.value;
-    setSearchLicense(searchTitle);
-  };
 
   const retrieveOwners = () => {
     OwnerDataService.getAll()
@@ -28,35 +22,15 @@ const OwnerList = (props) => {
       });
   };
 
-  const refreshList = () => {
-    retrieveOwners();
-  };
-
-  const removeAllOwners = () => {
-    OwnerDataService.removeAll()
-      .then((response) => {
-        console.log(response.data);
-        refreshList();
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
-
-  const findByLicense = () => {
-    OwnerDataService.findByLicense(searchLicense)
-      .then((response) => {
-        setOwners(response.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+  const addCar = (rowIndex) => {
+    const id = ownersRef.current[rowIndex].id;
+    props.history.push("/vehicles/add/" + id);
   };
 
   const openOwners = (rowIndex) => {
     const id = ownersRef.current[rowIndex].id;
 
-    props.history.push("/owners/" + id);
+    props.history.push("/owners/edit/" + id);
   };
 
   const deleteOwners = (rowIndex) => {
@@ -100,7 +74,7 @@ const OwnerList = (props) => {
         Cell: (props) => {
           const rowIdx = props.row.id;
           return (
-            <div>
+            <div className="actions-container">
               <span onClick={() => openOwners(rowIdx)}>
                 <i className="far fa-edit action mr-2"></i>
               </span>
@@ -108,7 +82,7 @@ const OwnerList = (props) => {
               <span onClick={() => deleteOwners(rowIdx)}>
                 <i className="fas fa-trash action"></i>
               </span>
-              <span onClick={() => deleteOwners(rowIdx)}>
+              <span onClick={() => addCar(rowIdx)}>
                 <i className="fas fa-car action"></i>
               </span>
             </div>
@@ -159,7 +133,7 @@ const OwnerList = (props) => {
           </tbody>
         </table>
         <div>
-          <button type="button" onClick={() => props.history.push("/add")}>Add Entry</button>
+          <button type="button" onClick={() => props.history.push("/owners/add")}>Add Entry</button>
         </div>
       </div>
     </div>

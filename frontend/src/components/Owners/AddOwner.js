@@ -6,7 +6,7 @@ const AddOwner = () => {
     id: null,
     firstName: "",
     lastName: "",
-    driverLicense: ""
+    driverLicence: ""
   };
   const [ownerEntry, setOwnerEntry] = useState(initialOwnerEntry);
   const [submitted, setSubmitted] = useState(false);
@@ -20,10 +20,8 @@ const AddOwner = () => {
     var data = {
       firstName: ownerEntry.firstName,
       lastName: ownerEntry.lastName,
-      driverLicence: ownerEntry.driverLicense
+      driverLicence: ownerEntry.driverLicence
     };
-
-    console.log(OwnerDataService.create(data))
 
     OwnerDataService.create(data)
       .then(response => {
@@ -31,7 +29,7 @@ const AddOwner = () => {
           id: response.data.id,
           firstName: response.data.firstName,
           lastName: response.data.lastName,
-          driverLicense: response.data.driversLicense
+          driverLicence: response.data.driversLicense
         });
         setSubmitted(true);
         console.log(response.data);
@@ -57,6 +55,7 @@ const AddOwner = () => {
         </div>
       ) : (
         <div>
+          <div><h4>Add Driver</h4></div>
           <div className="form-group">
             <label htmlFor="title">First Name</label>
             <input
@@ -86,9 +85,9 @@ const AddOwner = () => {
             <input
               type="text"
               className="form-control"
-              id="driverLicense"
-              name="driverLicense"
-              value={ownerEntry.driverLicense}
+              id="driverLicence"
+              name="driverLicence"
+              value={ownerEntry.driverLicence}
               onChange={handleInputChange}
             />
           </div>

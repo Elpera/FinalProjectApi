@@ -1,25 +1,19 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
-import VehicleDataService from "../../services/VehiclesService";
+import VehiclesDataService from "../../services/VehiclesService";
 import { useTable } from "react-table";
 
-const VehicleList = (props) => {
+const VehiclesList = (props) => {
   const [vehicles, setVehicles] = useState([]);
-  const [searchOwnerId, setSearchOwnerId] = useState("");
-  const vehiclesRef = useRef();
+  const ownersRef = useRef();
 
-  vehiclesRef.current = vehicles;
+  ownersRef.current = vehicles;
 
   useEffect(() => {
-    retrieveVehicles();
+    retrieveOwners();
   }, []);
 
-  const onChangeSearchTitle = (e) => {
-    const searchTitle = e.target.value;
-    setSearchOwnerId(searchTitle);
-  };
-
-  const retrieveVehicles = () => {
-    VehicleDataService.getAll()
+  const retrieveOwners = () => {
+    VehiclesDataService.getAll()
       .then((response) => {
         setVehicles(response.data);
       })
@@ -29,47 +23,30 @@ const VehicleList = (props) => {
   };
 
   const refreshList = () => {
-    retrieveVehicles();
-  };
-
-  const removeAllVehicles = () => {
-    VehicleDataService.removeAll()
-      .then((response) => {
-        console.log(response.data);
-        refreshList();
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
-
-  const findByOwnerId = () => {
-    VehicleDataService.findByOwnerId(searchOwnerId)
-      .then((response) => {
-        setVehicles(response.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    retrieveOwners();
   };
 
   const openVehicles = (rowIndex) => {
-    const id = vehiclesRef.current[rowIndex].id;
+    const id = ownersRef.current[rowIndex].id;
+    props.history.push("/vehicles/edit/" + id);
+  };
 
-    props.history.push("/vehicles/" + id);
+  const addClaim = (rowIndex) => {
+    const id = ownersRef.current[rowIndex].id;
+    props.history.push("/claims/add/" + id);
   };
 
   const deleteVehicles = (rowIndex) => {
-    const id = vehiclesRef.current[rowIndex].id;
+    const id = ownersRef.current[rowIndex].id;
 
-    VehicleDataService.remove(id)
+    VehiclesDataService.remove(id)
       .then((response) => {
         props.history.push("/vehicles");
 
-        let newTutorials = [...vehiclesRef.current];
-        newTutorials.splice(rowIndex, 1);
+        let newVehicles = [...ownersRef.current];
+        newVehicles.splice(rowIndex, 1);
 
-        setVehicles(newTutorials);
+        setVehicles(newVehicles);
       })
       .catch((e) => {
         console.log(e);
@@ -78,16 +55,16 @@ const VehicleList = (props) => {
 
   const columns = useMemo(
     () => [
-        {
-            Header: "ID",
-            accessor: "id",
-          },
-        {
+      {
+        Header: "ID",
+        accessor: "id",
+      },
+      {
         Header: "Brand",
         accessor: "brand",
       },
       {
-        Header: "Vin",
+        Header: "VIN",
         accessor: "vin",
       },
       {
@@ -99,22 +76,27 @@ const VehicleList = (props) => {
         accessor: "year",
       },
       {
-        Header: "Owner_ID",
-        accessor: "ownerId",
+        Header: "Owner ID",
+        accessor: "owner_Id",
       },
       {
         Header: "Actions",
         accessor: "actions",
         Cell: (props) => {
           const rowIdx = props.row.id;
+          const ownerId = props.row.owner_Id;
           return (
-            <div>
+            <div className="actions-container">
               <span onClick={() => openVehicles(rowIdx)}>
                 <i className="far fa-edit action mr-2"></i>
               </span>
 
               <span onClick={() => deleteVehicles(rowIdx)}>
                 <i className="fas fa-trash action"></i>
+              </span>
+
+              <span onClick={() => addClaim(ownerId)}>
+                <i className="fas fa-scroll action"></i>
               </span>
             </div>
           );
@@ -163,9 +145,17 @@ const VehicleList = (props) => {
             })}
           </tbody>
         </table>
+        <div>
+          <button
+            type="button"
+            onClick={() => props.history.push("/vehicles/add")}
+          >
+            Add Entry
+          </button>
+        </div>
       </div>
     </div>
   );
 };
 
-export default VehicleList;
+export default VehiclesList;

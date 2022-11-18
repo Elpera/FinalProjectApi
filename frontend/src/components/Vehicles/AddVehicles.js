@@ -1,14 +1,17 @@
 import React, { useState } from "react";
-import TutorialDataService from "../../services/VehiclesService"
+import { useParams } from "react-router-dom";
+import VehiclesDataService from "../../services/VehiclesService"
 
-const AddVehicles = () => {
+const AddVehicles = (inputId) => {
+  const urlParams = useParams();
+
   const initialVehicleEntry = {
     id: null,
     brand: "",
     vin: "",
     color: "",
     year: "",
-    ownerId: "",
+    owner_Id: urlParams.id
   };
   const [vehicleEntry, setVehicleEntry] = useState(initialVehicleEntry);
   const [submitted, setSubmitted] = useState(false);
@@ -21,18 +24,20 @@ const AddVehicles = () => {
   const saveVehicleEntry = () => {
     var data = {
       brand: vehicleEntry.brand,
-      lastName: vehicleEntry.lastName,
-      email: vehicleEntry.email,
-      phoneNumber: vehicleEntry.phoneNumber
+      vin: vehicleEntry.vin,
+      color: vehicleEntry.color,
+      year: vehicleEntry.year,
+      owner_Id: vehicleEntry.owner_Id
     };
 
-    TutorialDataService.create(data)
+    VehiclesDataService.create(data)
       .then(response => {
         setVehicleEntry({
+          id: response.data.id,
           brand: response.data.brand,
-          lastName: response.data.lastName,
-          email: response.data.email,
-          phoneNumber: response.data.phoneNumber,
+          vin: response.data.vin,
+          color: response.data.color,
+          year: response.data.year,
         });
         setSubmitted(true);
         console.log(response.data);
@@ -58,6 +63,7 @@ const AddVehicles = () => {
         </div>
       ) : (
         <div>
+          <div><h4>Add Vehicle to Driver</h4></div>
           <div className="form-group">
             <label htmlFor="title">Brand</label>
             <input
@@ -71,39 +77,39 @@ const AddVehicles = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="description">Last Name</label>
+            <label htmlFor="description">VIN</label>
             <input
               type="text"
               className="form-control"
-              id="last-name"
-              name="lastName"
+              id="vin"
+              name="vin"
               value={vehicleEntry.lastName}
               onChange={handleInputChange}
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="description">Email</label>
+            <label htmlFor="description">Color</label>
             <input
               type="text"
               className="form-control"
-              id="email"
-              name="email"
+              id="color"
+              name="color"
               onChange={handleInputChange}
-              value={vehicleEntry.email}
+              value={vehicleEntry.color}
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="description">Phone Number</label>
+            <label htmlFor="description">Year</label>
             <input
               type="text"
               className="form-control"
-              id="phone-number"
-              name="phoneNumber"
+              id="year"
+              name="year"
               required
               onChange={handleInputChange}
-              value={vehicleEntry.phoneNumber}
+              value={vehicleEntry.year}
             />
           </div>
 

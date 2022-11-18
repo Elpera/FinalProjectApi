@@ -10,8 +10,6 @@ const Vehicle = props => {
     year: "",
     ownerId: "",
   };
-  
-  
 
   const [currentVehicle, setCurrentVehicle] = useState(initialVehiclesState);
   const [message, setMessage] = useState("");
@@ -70,9 +68,9 @@ const Vehicle = props => {
               <input
                 type="text"
                 className="form-control"
-                id="driversLicense"
-                name="driversLicense"
-                defaultValue={currentVehicle.ownerId}
+                id="brand"
+                name="brand"
+                defaultValue={currentVehicle.brand}
                 onChange={handleInputChange}
               />
             </div>
@@ -81,9 +79,9 @@ const Vehicle = props => {
               <input
                 type="text"
                 className="form-control"
-                id="first-name"
-                name="firstName"
-                defaultValue={currentVehicle.firstName}
+                id="brand"
+                name="brand"
+                defaultValue={currentVehicle.brand}
                 onChange={handleInputChange}
               />
             </div>
@@ -93,8 +91,8 @@ const Vehicle = props => {
                 type="text"
                 className="form-control"
                 id="last-name"
-                name="lastName"
-                defaultValue={currentVehicle.lastName}
+                name="brand"
+                defaultValue={currentVehicle.brand}
                 onChange={handleInputChange}
               />
             </div>
