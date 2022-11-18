@@ -77,10 +77,18 @@ namespace CompanyQuery.api.Controllers
         [HttpPost]
         public async Task<ActionResult<Owners>> PostOwners(Owners owners)
         {
-            _context.Owners.Add(owners);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetOwners", new { id = owners.Id }, owners);
+            try
+            {
+                var existingOwner = _context.Owners.Where(r => r.DriverLicence == owners.DriverLicence).Single();
+                return _context.Owners.Where(r => r.DriverLicence == owners.DriverLicence).Single();
+            }
+            catch
+            {
+                _context.Owners.Add(owners);
+                await _context.SaveChangesAsync();
+                return CreatedAtAction("GetOwners", new { id = owners.Id }, owners);
+            }
+            
         }
 
         // DELETE: api/Owners/5
@@ -92,16 +100,18 @@ namespace CompanyQuery.api.Controllers
             {
                 return NotFound();
             }
-
+            await Functions.RemoveVehicleByOwnerId(id, _context);
             _context.Owners.Remove(owners);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
+
         private bool OwnersExists(int id)
         {
             return _context.Owners.Any(e => e.Id == id);
         }
+
     }
 }

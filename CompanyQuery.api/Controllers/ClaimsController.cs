@@ -107,6 +107,7 @@ namespace CompanyQuery.api.Controllers
             return NoContent();
         }
 
+      
         private bool ClaimsExists(int id)
         {
             return _context.Claims.Any(e => e.Id == id);
