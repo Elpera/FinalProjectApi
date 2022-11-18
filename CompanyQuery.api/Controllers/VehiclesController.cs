@@ -100,13 +100,15 @@ namespace CompanyQuery.api.Controllers
             {
                 return NotFound();
             }
-
+            await Functions.RemoveClaimByVehicleId(id, _context);
             _context.Vehicles.Remove(vehicles);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
+
+     
         private bool VehiclesExists(int id)
         {
             return _context.Vehicles.Any(e => e.Id == id);

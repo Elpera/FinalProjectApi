@@ -1,32 +1,41 @@
-﻿namespace CompanyQuery.api
+﻿using CompanyQuery.api.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace CompanyQuery.api
 {
     public class Functions
     {
-        public static string EvaluateTheAnswers(string answers)
+        public static async Task<bool> RemoveVehicleByOwnerId(int id, CarManagementDbContext _context)
         {
-            int points = 0;
-            if (answers != null)
+            var vehicles = await _context.Vehicles.Where(r => r.Owner_Id == id).ToListAsync();
+            if (vehicles != null)
             {
-                string[] answersList = answers.Split(",");
-                for (int i = 0; i < answersList.Length; i++)
+                for (int i = 0; i < vehicles.Count; i++)
                 {
-                    points += int.Parse(answersList[i]);
+                    await RemoveClaimByVehicleId(vehicles[i].Id, _context);
+                    _context.Vehicles.Remove(vehicles[i]);
                 }
-                if (points > 4)
-                {
-                    return "You should implement blockchain options on your LOGISTICS, DATA, PAYMENTS";
-                }
-                else if (points > 2)
-                {
-                    return "You should implement blockchain options on your PAYMENTS";
-                }
-                else
-                {
-                    return "You should not implement blockchain options";
-                }
+                await _context.SaveChangesAsync();
+                return true;
             }
-            return "";
+            return false;
         }
+
+        public static async Task<bool> RemoveClaimByVehicleId(int id, CarManagementDbContext _context)
+        {
+            var claims = await _context.Claims.Where(r => r.Vehicle_Id == id).ToListAsync();
+            if (claims != null)
+            {
+                for (int i = 0; i < claims.Count; i++)
+                {
+                    _context.Claims.Remove(claims[i]);
+                }
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+
 
     }
 }
