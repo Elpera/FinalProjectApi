@@ -146,12 +146,6 @@ const VehiclesList = (props) => {
           </tbody>
         </table>
         <div>
-          <button
-            type="button"
-            onClick={() => props.history.push("/vehicles/add")}
-          >
-            Add Entry
-          </button>
         </div>
       </div>
     </div>
