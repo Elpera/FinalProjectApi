@@ -1,27 +1,27 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
-import OwnerDataService from "../../services/OwnersService";
+import VehicleDataService from "../../services/VehiclesService";
 import { useTable } from "react-table";
 
-const OwnerList = (props) => {
-  const [owners, setOwners] = useState([]);
-  const [searchLicense, setSearchLicense] = useState("");
-  const ownersRef = useRef();
+const VehicleList = (props) => {
+  const [vehicles, setVehicles] = useState([]);
+  const [searchOwnerId, setSearchOwnerId] = useState("");
+  const vehiclesRef = useRef();
 
-  ownersRef.current = owners;
+  vehiclesRef.current = vehicles;
 
   useEffect(() => {
-    retrieveOwners();
+    retrieveVehicles();
   }, []);
 
   const onChangeSearchTitle = (e) => {
     const searchTitle = e.target.value;
-    setSearchLicense(searchTitle);
+    setSearchOwnerId(searchTitle);
   };
 
-  const retrieveOwners = () => {
-    OwnerDataService.getAll()
+  const retrieveVehicles = () => {
+    VehicleDataService.getAll()
       .then((response) => {
-        setOwners(response.data);
+        setVehicles(response.data);
       })
       .catch((e) => {
         console.log(e);
@@ -29,11 +29,11 @@ const OwnerList = (props) => {
   };
 
   const refreshList = () => {
-    retrieveOwners();
+    retrieveVehicles();
   };
 
-  const removeAllOwners = () => {
-    OwnerDataService.removeAll()
+  const removeAllVehicles = () => {
+    VehicleDataService.removeAll()
       .then((response) => {
         console.log(response.data);
         refreshList();
@@ -43,33 +43,33 @@ const OwnerList = (props) => {
       });
   };
 
-  const findByLicense = () => {
-    OwnerDataService.findByLicense(searchLicense)
+  const findByOwnerId = () => {
+    VehicleDataService.findByOwnerId(searchOwnerId)
       .then((response) => {
-        setOwners(response.data);
+        setVehicles(response.data);
       })
       .catch((e) => {
         console.log(e);
       });
   };
 
-  const openOwners = (rowIndex) => {
-    const id = ownersRef.current[rowIndex].id;
+  const openVehicles = (rowIndex) => {
+    const id = vehiclesRef.current[rowIndex].id;
 
-    props.history.push("/owners/" + id);
+    props.history.push("/vehicles/" + id);
   };
 
-  const deleteOwners = (rowIndex) => {
-    const id = ownersRef.current[rowIndex].id;
+  const deleteVehicles = (rowIndex) => {
+    const id = vehiclesRef.current[rowIndex].id;
 
-    OwnerDataService.remove(id)
+    VehicleDataService.remove(id)
       .then((response) => {
-        props.history.push("/owners");
+        props.history.push("/vehicles");
 
-        let newTutorials = [...ownersRef.current];
+        let newTutorials = [...vehiclesRef.current];
         newTutorials.splice(rowIndex, 1);
 
-        setOwners(newTutorials);
+        setVehicles(newTutorials);
       })
       .catch((e) => {
         console.log(e);
@@ -83,16 +83,24 @@ const OwnerList = (props) => {
             accessor: "id",
           },
         {
-        Header: "License",
-        accessor: "license",
+        Header: "Brand",
+        accessor: "brand",
       },
       {
-        Header: "First name",
-        accessor: "firstName",
+        Header: "Vin",
+        accessor: "vin",
       },
       {
-        Header: "Last name",
-        accessor: "lastName",
+        Header: "Color",
+        accessor: "color",
+      },
+      {
+        Header: "Year",
+        accessor: "year",
+      },
+      {
+        Header: "Owner_ID",
+        accessor: "ownerId",
       },
       {
         Header: "Actions",
@@ -101,11 +109,11 @@ const OwnerList = (props) => {
           const rowIdx = props.row.id;
           return (
             <div>
-              <span onClick={() => openOwners(rowIdx)}>
+              <span onClick={() => openVehicles(rowIdx)}>
                 <i className="far fa-edit action mr-2"></i>
               </span>
 
-              <span onClick={() => deleteOwners(rowIdx)}>
+              <span onClick={() => deleteVehicles(rowIdx)}>
                 <i className="fas fa-trash action"></i>
               </span>
             </div>
@@ -119,7 +127,7 @@ const OwnerList = (props) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,
-      data: owners,
+      data: vehicles,
     });
 
   return (
@@ -160,4 +168,4 @@ const OwnerList = (props) => {
   );
 };
 
-export default OwnerList;
+export default VehicleList;

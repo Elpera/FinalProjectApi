@@ -24,7 +24,7 @@ const removeAll = () => {
   return http.delete(`/vehicles`);
 };
 
-const OwnerService = {
+const VehiclesService = {
   getAll,
   get,
   create,
@@ -33,4 +33,4 @@ const OwnerService = {
   removeAll,
 };
 
-export default OwnerService;
+export default VehiclesService;

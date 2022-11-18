@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from "react";
-import OwnerDataService from "../../services/OwnersService"; 
+import VehicleDataService from "../../services/VehiclesService"; 
 
-const Owner = props => {
-  const initialOwnerState = {
+const Vehicle = props => {
+  const initialVehiclesState = {
     id: null,
-    firstName: "",
-    lastName: "",
-    driversLicense: "",
+    brand: "",
+    vin: "",
+    color: "",
+    year: "",
+    ownerId: "",
   };
   
   
 
-  const [currentOwner, setCurrentOwner] = useState(initialOwnerState);
+  const [currentVehicle, setCurrentVehicle] = useState(initialVehiclesState);
   const [message, setMessage] = useState("");
 
-  const getOwner = id => {
-    OwnerDataService.get(id)
+  const getVehicle = id => {
+    VehicleDataService.get(id)
       .then(response => {
-        setCurrentOwner(response.data);
+        setCurrentVehicle(response.data);
         console.log(response.data);
       })
       .catch(e => {
@@ -26,31 +28,31 @@ const Owner = props => {
   };
 
   useEffect(() => {
-    getOwner(props.match.params.id);
+    getVehicle(props.match.params.id);
   }, [props.match.params.id]);
 
   const handleInputChange = event => {
     const { name, value } = event.target;
-    setCurrentOwner({ ...currentOwner, [name]: value });
+    setCurrentVehicle({ ...currentVehicle, [name]: value });
   };
 
-  const updateOwner = () => {
-    OwnerDataService.update(currentOwner.id, currentOwner)
+  const updateVehicle = () => {
+    VehicleDataService.update(currentVehicle.id, currentVehicle)
       .then(response => {
         console.log(response.data);
-        setMessage("The Owner was updated successfully");
-        props.history.push("/owners");
+        setMessage("The Vehicle was updated successfully");
+        props.history.push("/vehicles");
       })
       .catch(e => {
         console.log(e);
       });
   };
 
-  const deleteOwner = () => {
-    OwnerDataService.remove(currentOwner.id)
+  const deleteVehicle = () => {
+    VehicleDataService.remove(currentVehicle.id)
       .then(response => {
         console.log(response.data);
-        props.history.push("/owners");
+        props.history.push("/vehicles");
       })
       .catch(e => {
         console.log(e);
@@ -59,9 +61,9 @@ const Owner = props => {
 
   return (
     <div>
-      {currentOwner ? (
+      {currentVehicle ? (
         <div className="edit-form">
-          <h4>Owner</h4>
+          <h4>Vehicle</h4>
           <form>
           <div className="form-group">
               <label htmlFor="description">Drivers License</label>
@@ -70,7 +72,7 @@ const Owner = props => {
                 className="form-control"
                 id="driversLicense"
                 name="driversLicense"
-                defaultValue={currentOwner.email}
+                defaultValue={currentVehicle.ownerId}
                 onChange={handleInputChange}
               />
             </div>
@@ -81,7 +83,7 @@ const Owner = props => {
                 className="form-control"
                 id="first-name"
                 name="firstName"
-                defaultValue={currentOwner.firstName}
+                defaultValue={currentVehicle.firstName}
                 onChange={handleInputChange}
               />
             </div>
@@ -92,20 +94,20 @@ const Owner = props => {
                 className="form-control"
                 id="last-name"
                 name="lastName"
-                defaultValue={currentOwner.lastName}
+                defaultValue={currentVehicle.lastName}
                 onChange={handleInputChange}
               />
             </div>
           </form>
 
-          <button className="badge badge-danger mr-2" onClick={deleteOwner}>
+          <button className="badge badge-danger mr-2" onClick={deleteVehicle}>
             Delete
           </button>
 
           <button
             type="submit"
             className="badge badge-success"
-            onClick={updateOwner}
+            onClick={updateVehicle}
           >
             Update
           </button>
@@ -114,11 +116,11 @@ const Owner = props => {
       ) : (
         <div>
           <br />
-          <p>Please click on a Owner...</p>
+          <p>Please click on a Vehicle...</p>
         </div>
       )}
     </div>
   );
 };
 
-export default Owner;
+export default Vehicle;
