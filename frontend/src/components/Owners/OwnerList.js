@@ -84,7 +84,7 @@ const OwnerList = (props) => {
           },
         {
         Header: "License",
-        accessor: "license",
+        accessor: "driverLicence",
       },
       {
         Header: "First name",
@@ -107,6 +107,9 @@ const OwnerList = (props) => {
 
               <span onClick={() => deleteOwners(rowIdx)}>
                 <i className="fas fa-trash action"></i>
+              </span>
+              <span onClick={() => deleteOwners(rowIdx)}>
+                <i className="fas fa-car action"></i>
               </span>
             </div>
           );
@@ -155,6 +158,9 @@ const OwnerList = (props) => {
             })}
           </tbody>
         </table>
+        <div>
+          <button type="button" onClick={() => props.history.push("/add")}>Add Entry</button>
+        </div>
       </div>
     </div>
   );
